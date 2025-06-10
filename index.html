@@ -1,139 +1,135 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhao Bhao - Connect with Us</title>
+    <title>Bhaobhao - In-home Pet Grooming Experts</title>
     <style>
         body {
-            font-family: 'Roboto', Arial, sans-serif;
+            font-family: 'Inter', Arial, sans-serif; /* Using Inter font as per guidelines */
             margin: 0;
             padding: 0;
-            background-color: #ffffff;
-            color: #333333;
-            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5; /* A light, clean background color */
         }
-        .header {
-            background-color: #1a3c34;
-            color: white;
-            padding: 30px 20px;
+        .container {
             text-align: center;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 2.8em;
-            font-weight: 700;
-        }
-        .header p {
-            margin: 10px 0 0;
-            font-size: 1.2em;
-            opacity: 0.8;
-        }
-        .main-content {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        .main-content h2 {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .main-content p {
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            color: #555555;
-        }
-        .whatsapp-cta {
-            display: inline-block;
-            padding: 15px 40px;
-            background-color: #25D366;
-            color: white;
-            text-decoration: none;
-            font-size: 1.2em;
-            font-weight: 500;
-            border-radius: 50px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        .whatsapp-cta:hover {
-            background-color: #128C7E;
-            transform: scale(1.05);
-        }
-        .footer {
-            background-color: #f8f8f8;
             padding: 20px;
-            text-align: center;
-            font-size: 0.9em;
-            color: #777777;
+            max-width: 1000px; /* Max width for the content area */
+            width: 100%; /* Ensures it's fluid within the max-width */
+            box-sizing: border-box; /* Include padding in the element's total width and height */
         }
+        .banner-image {
+            max-width: 100%; /* Ensures the image is responsive */
+            height: auto; /* Maintains aspect ratio */
+            display: block; /* Removes extra space below the image */
+            margin: 0 auto 30px auto; /* Centers the image and adds space below */
+            border-radius: 12px; /* More rounded corners for modern look */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+            transition: transform 0.3s ease; /* Smooth transition for hover effect */
+        }
+        .banner-image:hover {
+            transform: translateY(-5px); /* Slight lift on hover */
+        }
+        .whatsapp-button {
+            display: inline-flex; /* Use flexbox for icon and text alignment */
+            align-items: center; /* Vertically align content */
+            gap: 10px; /* Space between icon and text */
+            background: linear-gradient(to right, #25D366, #1DA851); /* Gradient WhatsApp green */
+            color: white;
+            padding: 15px 35px; /* More padding for a larger button */
+            text-decoration: none;
+            border-radius: 50px; /* Pill shape */
+            font-size: 1.3em; /* Slightly larger font */
+            font-weight: bold;
+            transition: all 0.3s ease; /* Smooth transition for all properties */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+            margin-top: 30px; /* More space above the button */
+            cursor: pointer; /* Indicate it's clickable */
+            border: none; /* No default button border */
+        }
+        .whatsapp-button:hover {
+            background: linear-gradient(to right, #1DA851, #179344); /* Darker gradient on hover */
+            transform: translateY(-3px) scale(1.02); /* Lift and slightly enlarge */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .whatsapp-button:active {
+            transform: translateY(0); /* Return to original position on click */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Less shadow on click */
+        }
+        .whatsapp-icon {
+            /* Inline SVG for WhatsApp icon */
+            width: 24px;
+            height: 24px;
+            fill: currentColor; /* Use button's text color */
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2em;
+            .container {
+                padding: 15px;
             }
-            .header p {
+            .whatsapp-button {
+                font-size: 1.1em;
+                padding: 12px 25px;
+            }
+            .whatsapp-icon {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            .whatsapp-button {
                 font-size: 1em;
-            }
-            .main-content h2 {
-                font-size: 1.6em;
-            }
-            .whatsapp-cta {
-                padding: 12px 30px;
-                font-size: 1em;
+                padding: 10px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Bhao Bhao</h1>
-        <p>Your Trusted Partner for Exceptional Services</p>
+
+    <div class="container">
+        <!-- Banner Image -->
+        <!-- The image is expected to be in the same directory as this HTML file. -->
+        <img src="Mygate app - banner - v3.jpg" alt="Bhaobhao - In-home Pet Grooming Experts " class="banner-image">
+
+        <!-- WhatsApp Call to Action Button -->
+        <!-- This button links to WhatsApp with a pre-filled number for your company. -->
+        <a href="https://wa.me/917900118109" target="_blank" class="whatsapp-button">
+            <!-- WhatsApp Icon (Inline SVG for better control and no external requests) -->
+            <svg class="whatsapp-icon" viewBox="0 0 24 24">
+                <path d="M12.04 2C7.34 2 3.44 5.86 3.44 10.55C3.44 12.04 3.86 13.44 4.58 14.73L3.04 21.03L9.58 19.5C10.88 20.22 12.28 20.64 13.77 20.64C18.46 20.64 22.36 16.78 22.36 12.09C22.36 7.4 18.46 3.54 13.77 3.54H12.04V2ZM17.27 15.34C17.07 15.64 16.59 15.79 16.09 15.54C15.69 15.34 15.39 14.86 14.99 14.46C14.79 14.26 14.39 14.06 14.09 14.06C13.79 14.06 13.49 14.06 13.19 14.06C12.89 14.06 12.59 14.06 12.29 14.06L11.79 14.16C11.39 14.26 10.99 14.46 10.49 14.86C9.89 15.34 9.39 16.04 8.79 15.44C8.29 14.84 8.69 14.14 8.99 13.84C9.19 13.64 9.29 13.34 9.39 13.14C9.49 12.94 9.59 12.74 9.49 12.54C9.39 12.34 9.29 12.14 9.19 11.94C8.99 11.64 8.59 11.14 8.29 10.54C8.09 10.04 7.99 9.64 7.89 9.34C7.79 9.04 7.89 8.74 8.09 8.54C8.29 8.34 8.49 8.24 8.69 8.24C8.99 8.24 9.19 8.24 9.39 8.24C9.59 8.24 9.79 8.24 9.89 8.24C10.09 8.24 10.29 8.24 10.49 8.24C10.69 8.24 10.79 8.24 10.89 8.34C10.99 8.44 11.09 8.64 11.09 8.84C11.09 9.04 11.09 9.14 11.09 9.24C11.09 9.34 11.09 9.54 11.09 9.74C11.09 9.84 11.09 9.94 11.09 10.04C11.09 10.14 11.09 10.24 11.09 10.34C11.09 10.44 11.09 10.54 11.09 10.74C11.09 11.24 10.99 11.64 10.69 12.04C10.39 12.44 9.99 12.74 9.49 12.94C9.09 13.04 8.59 13.04 8.09 12.94C7.69 12.74 7.29 12.44 6.89 11.84C6.39 11.24 6.09 10.44 6.09 9.54C6.09 8.64 6.29 7.74 6.89 7.04C7.49 6.44 8.29 6.14 9.09 6.14C9.59 6.14 10.09 6.24 10.49 6.44C10.89 6.54 11.29 6.74 11.59 6.94C11.89 7.14 12.19 7.34 12.29 7.44C12.39 7.54 12.59 7.64 12.89 7.74C13.09 7.84 13.29 7.84 13.49 7.74C13.69 7.64 13.89 7.54 14.09 7.34C14.19 7.24 14.29 7.14 14.39 7.04C14.49 6.94 14.59 6.84 14.69 6.74C14.79 6.64 14.89 6.54 15.09 6.34C15.29 6.14 15.69 5.84 16.09 5.64C16.49 5.44 16.79 5.34 17.09 5.34C17.39 5.34 17.59 5.44 17.69 5.54C17.79 5.64 17.89 5.84 17.89 5.94C17.89 6.04 17.79 6.14 17.69 6.24C17.59 6.34 17.39 6.54 17.19 6.74C16.99 6.84 16.79 7.04 16.59 7.24C16.39 7.34 16.29 7.44 16.19 7.54C16.09 7.64 15.99 7.74 15.99 7.84C15.99 7.94 15.99 8.04 15.99 8.14C15.99 8.24 16.19 8.34 16.39 8.54C16.59 8.64 16.89 8.84 17.09 9.04C17.29 9.14 17.49 9.24 17.69 9.44C17.79 9.54 17.89 9.64 17.99 9.74C18.09 9.84 18.19 9.94 18.29 10.04C18.39 10.14 18.49 10.24 18.59 10.34C18.59 10.44 18.59 10.54 18.59 10.64C18.59 10.74 18.59 10.84 18.59 10.94C18.59 11.04 18.59 11.14 18.59 11.24C18.59 11.34 18.59 11.44 18.59 11.54C18.59 12.04 18.49 12.54 18.29 12.94C18.09 13.44 17.79 13.84 17.27 14.34C17.27 14.44 17.27 14.44 17.27 14.54C17.27 14.64 17.27 14.84 17.27 15.34Z"/>
+            </svg>
+            Message us on WhatsApp!
+        </a>
     </div>
-    <div class="main-content">
-        <h2>Get in Touch Today!</h2>
-        <p>Reach out to us on WhatsApp to explore our services, ask questions, or start a conversation. We're here to help you every step of the way.</p>
-        <a href="https://wa.me/7900118109?text=Hello%20Bhao%20Bhao%2C%20I%27m%20interested%20in%20your%20services" class="whatsapp-cta" target="_blank">Contact Us on WhatsApp</a>
-    </div>
-    <div class="footer">
-        <p>&copy; 2025 Bhao Bhao. All rights reserved.</p>
-    </div>
+
 </body>
 </html>
+```
+I've created a static HTML page for your company, Bhaobhao, featuring your banner and a clear WhatsApp Call to Action (CTA).
+
+**Key features of this page:**
+
+* **Responsive Design:** The page is designed to look good on various screen sizes, from mobile phones to desktop monitors, thanks to the `viewport` meta tag and responsive CSS.
+* **Styled Banner:** Your banner image (`Mygate app - banner - v3.jpg`) is prominently displayed and styled with rounded corners and a subtle shadow for a modern look. It also has a slight lift effect on hover.
+* **WhatsApp CTA Button:** A visually appealing button is provided that links directly to your WhatsApp number (`+917900118109`). It includes an inline SVG WhatsApp icon for crisp display and hover/active effects for better user interaction.
+* **Clean and Minimalist:** The design focuses on showcasing your banner and directing users to contact you via WhatsApp without distractions.
+* **"Inter" Font:** The page uses the "Inter" font, which is a clean and modern choice for web content.
+
+**To use this page:**
+
+1.  **Save the code:** Copy the entire code block above and paste it into a plain text editor (like Notepad, VS Code, Sublime Text, etc.).
+2.  **Save the file:** Save the file as `index.html` (or any `.html` extension) in a folder on your computer.
+3.  **Place the image:** Ensure that your banner image file, `Mygate app - banner - v3.jpg`, is saved in the **exact same folder** as your `index.html` file.
+4.  **Open in browser:** Double-click the `index.html` file, and it will open in your default web browser.
+
+Let me know if you'd like any adjustments or additional elements on the pa
