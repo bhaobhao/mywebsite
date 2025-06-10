@@ -11,7 +11,28 @@
             padding: 0;
             overflow: hidden; /* Prevent scrolling if image is slightly larger than viewport */
         }
+        
+        /* Default background image for desktop */
         body {
+            background-image: url('v1-desktop.jpg');
+        }
+
+        /* Background image for mobile devices */
+        @media (max-width: 768px) {
+            body {
+                background-image: url('v1-mobile.jpg');
+            }
+        }
+
+        /* Ensure the background image scales properly on very small devices */
+        @media (max-width: 480px) {
+            body {
+                background-size: contain; /* Prevent excessive cropping on small screens */
+                background-color: #1e2a44; /* Match the dark blue background of the image */
+            }
+        }
+        
+     /*   body {
             font-family: 'Inter', Arial, sans-serif;
             background-image: url('Mygate app - banner - v3.png'); /* New background image covering the entire page */
             background-size: cover; /* Cover the entire area */
@@ -22,7 +43,8 @@
             align-items: center; /* Center vertically */
             position: relative; /* Needed for positioning other elements relative to body */
         }
-
+*/
+        
         /* The previous .container and .banner-image styles have been removed as they are no longer applicable for a full-page background. */
 
         .booknow-button { /* Class name updated from whatsapp-button */
