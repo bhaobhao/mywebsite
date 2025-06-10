@@ -30,7 +30,16 @@
 
         @media (max-width: 768px) {
             body {
-                background-image: url('v2-mobilejpg.jpg');
+                background-image: none;
+                background-color: #ffffff;
+                padding: 20px;
+            }
+            .mobile-banner {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin: 0 auto;
             }
         }
 
@@ -97,7 +106,10 @@
 </head>
 <body>
     <div class="main-wrapper">
-        <div class="banner-image"></div>
+        <!-- Mobile banner image -->
+        <img src="v2-mobilejpg.jpg" alt="Mobile Banner" class="mobile-banner" />
+
+        <!-- Book Now Button -->
         <div class="button-container">
             <a href="https://wa.me/917900118109" target="_blank" class="booknow-button">
                 <svg class="whatsapp-icon" viewBox="0 0 24 24">
