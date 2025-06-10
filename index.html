@@ -6,36 +6,54 @@
     <title>Bhaobhao - In-home Pet Grooming Experts</title>
     <style>
         html, body {
-            height: 100%; /* Ensure html and body take full viewport height */
+            height: 100vh; /* Use viewport height to ensure full coverage */
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Prevent scrolling if image is slightly larger than viewport */
+            overflow-x: hidden;
+            overflow-y: auto; /* Allow scrolling if content overflows */
+            font-family: 'Inter', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
         
         /* Default background image for desktop */
         body {
             background-image: url('v1-desktop.jpg');
+            background-size: cover; /* Default to cover for desktop */
+            background-position: center;
+            background-repeat: no-repeat; /* Explicitly prevent repeat */
+            background-attachment: fixed; /* Prevent scrolling repetition */
+            background-color: #1e2a44; /* Fallback color */
+            min-height: 100vh; /* Ensure body covers full viewport height */
         }
 
         /* Background image for mobile devices */
         @media (max-width: 768px) {
             body {
                 background-image: url('v1-mobile.jpg');
+                background-size: cover; /* Use cover instead of contain to fill viewport */
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
             }
         }
 
         /* Ensure the background image scales properly on very small devices */
         @media (max-width: 480px) {
             body {
-                background-size: contain; /* Prevent excessive cropping on small screens */
-                background-color: #1e2a44; /* Match the dark blue background of the image */
+                background-size: cover; /* Ensure cover to prevent tiling */
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
             }
         }
         
      /*   body {
             font-family: 'Inter', Arial, sans-serif;
             background-image: url('Mygate app - banner - v3.png'); /* New background image covering the entire page */
-            background-size: cover; /* Cover the entire area */
+            background-size: contain; /* Cover the entire area */
             background-position: center; /* Center the image */
             background-repeat: no-repeat; /* Do not repeat the image */
             display: flex; /* Use flexbox to center content */
