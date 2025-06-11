@@ -50,6 +50,16 @@
             justify-content: center;
         }
 
+        .mobile-banner {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-banner {
+                display: block;
+            }
+        }
+
         .button-container {
             margin-top: 30px;
             display: flex;
@@ -107,7 +117,7 @@
 <body>
     <div class="main-wrapper">
         <!-- Mobile banner image -->
-        <img src="v3-mobile.png" alt="Mobile Banner" class="mobile-banner" />
+        <img src="v3-mobile.jpg" alt="Mobile Banner" class="mobile-banner" />
 
         <!-- Book Now Button -->
         <div class="button-container">
